@@ -1,0 +1,11 @@
+﻿
+@{
+    ViewBag.Title = "Usuń z Projektu";
+}
+
+<h3>Czy na pewno chcesz usunąć dostęp do projektu użytkownikowi?</h3>
+<br />
+<input type="submit" value="&nbsp;&nbsp;Nie&nbsp;&nbsp;" onclick="location.href='@Url.Action("UsersInProject", "Project", new { id = ViewBag.ProjectId })'" />
+&nbsp;&nbsp;
+<input type="submit" value="&nbsp;&nbsp;Tak&nbsp;&nbsp;" onclick="location.href='@Url.Action("SubmitRemoveUserFromProject", "Project",
+                                                                                new {User = ViewBag.User, Project = ViewBag.ProjectId })'" />

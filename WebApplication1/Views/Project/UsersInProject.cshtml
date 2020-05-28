@@ -1,0 +1,60 @@
+﻿@model IEnumerable<BusinessLayer.UserWithPerm>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Użytkownicy w projekcie";
+}
+
+<style>
+    table {
+        width: 90%;
+    }
+
+    th {
+        width: 10px;
+        height: 50px;
+    }
+</style>
+<div>
+    <hr />
+    <table>
+        <tr>
+            <th>
+                Użytkownik:
+            </th>
+            <th>
+                Uprawnienia:
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th style="text-align:left">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@item.UserName
+                </th>
+                <th style="text-align:left">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@item.Perm
+                </th>
+                <th style="text-align:left; width:200px">
+                    @if (BusinessLayer.UserBissnessLayer.getIfPermIsCorrect(User.Identity.GetUserId<String>(), ViewBag.Id) > 0)
+                    {
+                        if (User.Identity.GetUserId<String>() != item.ID)
+                        {
+                            @Html.ActionLink("Zmień uprawnienia", "EditPerm", "User", new { User = item.UserName, ProjectId = @ViewBag.Id }, null);<b> | </b>
+                            @Html.ActionLink("Usuń z projektu", "DeleteFromProject", "User", new { User = item.UserName, ProjectId = @ViewBag.Id }, null);
+                        }
+                        else
+                        {
+                            <p>(To Ty)</p>
+                        }
+                    }
+                </th>
+                <th/>
+            </tr>   
+        }   
+    </table>
+    <br/>
+</div>
+<p>
+    @Html.ActionLink("Powrót do listy projektów", "Project", "Home")
+</p>

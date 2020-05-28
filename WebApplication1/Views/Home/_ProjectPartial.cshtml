@@ -1,0 +1,6 @@
+﻿@using Microsoft.AspNet.Identity
+
+<!--@@if (BusinessLayer.UserBissnessLayer.GetPermission((User.Identity.GetUserId<String>())) == 2)
+{-->
+@Html.ActionLink("Utwórz nowy projekt", "AddNewProject", "Project", new { id = User.Identity.GetUserId() }, null)
+<!--}-->

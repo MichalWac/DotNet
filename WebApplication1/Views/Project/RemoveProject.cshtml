@@ -1,0 +1,13 @@
+﻿@model BusinessLayer.StringObject
+@{
+    ViewBag.Title = "Usuwanie projektu";
+}
+
+
+<h3>Czy na pewno chcesz usunąć projekt?</h3>
+<br />
+<input type="submit" value="&nbsp;&nbsp;Nie&nbsp;&nbsp;" onclick="location.href='@Url.Action("Project", "Home")'" />
+&nbsp;&nbsp;
+<input type="submit" value="&nbsp;&nbsp;Tak&nbsp;&nbsp;" onclick="location.href='@Url.Action("SubmitRemoveProject", "Project",
+                                                                                new {id = Html.ValueFor(m => m.Object) })'" />
+

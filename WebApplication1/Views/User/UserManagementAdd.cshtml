@@ -1,0 +1,38 @@
+﻿@model BusinessLayer.ListOfProjects
+@{
+    ViewBag.Title = "Zarządzaj Uprawnieniami";
+}
+@using (Html.BeginForm("UserManagementAdd", "User", FormMethod.Post, (String)this.ViewBag.Id))
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <hr />
+
+        <div class="editor-label">
+            @Html.Label("Ustaw uprawnienia użytkownikowi do tego projektu:")
+        </div><br />
+        <div class="editor-field">
+            @Html.DropDownList("Project", Model.list, "Wybierz Projekt")
+        </div>
+        <br />
+        <div class="editor-field">
+            @Html.DropDownList("Permission", new List<SelectListItem>
+            {
+                new SelectListItem{ Text = "Pracownik", Value = "0"},
+                new SelectListItem{ Text = "Zarządca", Value = "1"},
+
+            }, "Wybierz Uprawnienia"
+            )
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-md-offset-0 col-md-5">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Powrót do listy użytkowników", "Index")
+</div>

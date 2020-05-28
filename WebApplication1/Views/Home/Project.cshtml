@@ -1,0 +1,44 @@
+﻿@model IEnumerable<BusinessLayer.Project>
+@using Microsoft.AspNet.Identity
+<style>
+    table {
+        width: 100%;
+    }
+
+    th {
+        width: 50px;
+        height: 50px;
+    }
+</style>
+@{
+    ViewBag.Title = "Projekty";
+}
+
+<h3>Prowadzone przez nas obecnie projekty:</h3>
+
+@foreach (var item in Model)
+{
+    <table style="width:70%">
+        <tr>
+            <th style="text-align:left">
+                @item.Name
+                (@item.Language)
+            </th>
+            <th style="text-align:left">
+                @if (BusinessLayer.UserBissnessLayer.getIfPermIsCorrect(User.Identity.GetUserId<String>(), item.Id) != -1)
+                {
+                    @Html.ActionLink("Zespół", "UsersInProject", "Project", new { id = item.Id }, null) <b>|</b>
+                    @Html.ActionLink("Zadania", "Task", "Project", new { id = item.Id }, null)
+                }
+            </th>
+            <th style="text-align:right">
+                @if (BusinessLayer.UserBissnessLayer.getIfPermIsCorrect(User.Identity.GetUserId<String>(), item.Id) >= 1)
+                {
+                    @Html.ActionLink("Usuń projekt", "RemoveProject", "Project", new { id = item.Id }, null)
+                }
+            </th>
+        </tr>
+    </table>
+}
+    
+@Html.Partial("_ProjectPartial")

@@ -1,0 +1,67 @@
+﻿@model IEnumerable<BusinessLayer.User>
+<style>
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+@{
+    ViewBag.Title = "Użytkownicy";
+}
+
+    <table class="table">
+        <tr>
+            <th>
+                <br />
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <br />
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @if (item.Projects.Count > 0)
+                    {
+                        <b>Projekty:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Język:</b>
+                    }
+                    @foreach (var project in item.Projects)
+                    {
+                <ul class="menu">
+                    <li>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        @Html.DisplayFor(name => project.Name)
+                    </li>
+                    <li>
+
+                        @Html.DisplayFor(language => project.Language)
+                    </li>
+                    <li>
+                        @Html.ActionLink("Odłącz od projektu", "UserManagementRemove", new { id = item.ID, project = project.Id })
+                    </li>
+                </ul>
+                    }
+
+                </td>
+                <td>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    @Html.Partial("_UserPartial", new ViewDataDictionary { { "id", item.ID } })
+                </td>
+            </tr>
+
+
+
+
+        }
+
+    </table>
