@@ -86,6 +86,7 @@ namespace WebApplication1.Controllers
         }
         public ActionResult UserManagementDelete(String id)
         {
+            ViewBag.User = id;
             return View();
         }
 
@@ -93,7 +94,18 @@ namespace WebApplication1.Controllers
         {
             UserBissnessLayer userBissnessLayer = new UserBissnessLayer();
             userBissnessLayer.RemoveProjectFromUser(User, Project);
+            userBissnessLayer.ClearAssigneForUser(User, Project);
             return RedirectToAction("Index", "User");
+        }
+
+        public ActionResult SubmitDelete(String User)
+        {
+            UserBissnessLayer userBissnessLayer = new UserBissnessLayer();
+            userBissnessLayer.DeleteAllPermissionsForUser(User);
+            userBissnessLayer.DeleteAllAssigneTask(User);
+            userBissnessLayer.DeleteUser(User);
+            return RedirectToAction("Index", "User");
+
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿@model BusinessLayer.ListOfProjects
+@using Microsoft.AspNet.Identity
+
 @{
     ViewBag.Title = "Zarządzaj Uprawnieniami";
 }
@@ -12,7 +14,7 @@
             @Html.Label("Ustaw uprawnienia użytkownikowi do tego projektu:")
         </div><br />
         <div class="editor-field">
-            @Html.DropDownList("Project", Model.list, "Wybierz Projekt")
+            @Html.DropDownList("Project", new List<SelectListItem>(BusinessLayer.UserBissnessLayer.getNotHavingProject(ViewBag.Id, User.Identity.GetUserId<String>())), "Wybierz Projekt")
         </div>
         <br />
         <div class="editor-field">

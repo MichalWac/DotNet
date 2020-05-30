@@ -1,8 +1,13 @@
 ﻿@using Microsoft.AspNet.Identity
 
-@if (BusinessLayer.UserBissnessLayer.GetPermission((User.Identity.GetUserId<String>())) >= 2)
-{
-    @Html.ActionLink("Dodaj projekt", "UserManagementAdd", new { Id = this.ViewData["id"], AdmId = User.Identity.GetUserId<String>() }, null) <b>|</b>
-    @Html.ActionLink("Usuń użytkownika", "UserManagementDelete", new { id = this.ViewData["id"]})
+    @Html.ActionLink("Przydziel projekt", "UserManagementAdd", new { Id = this.ViewData["id"], AdmId = User.Identity.GetUserId<String>() }, null)
 
+
+@if (BusinessLayer.UserBissnessLayer.GetPermission((User.Identity.GetUserId<String>()))) {
+    
+    if ((String )this.ViewData["id"] != User.Identity.GetUserId<String>())
+    {<b>|</b>
+        @Html.ActionLink("Usuń użytkownika", "UserManagementDelete", new { id = this.ViewData["id"] })
+    }
+    
 }

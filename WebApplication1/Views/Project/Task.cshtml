@@ -1,0 +1,74 @@
+﻿@model IEnumerable<BusinessLayer.Task>
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Zadania";
+}
+
+<h2>Zadania</h2>
+<p>
+    <table>
+    <tr>
+        <th width="90%">
+            @Html.ActionLink("Utwórz nowe", "Create", "Task", new { ProjectId = ViewBag.ProjectId }, null)
+
+        </th>
+        <th>
+            <input type="submit" value="Export to csv" onclick="location.href='@Url.Action( "CSV","Project", new { id = ViewBag.ProjectId })'" />
+
+        </th>
+        <th>
+            <input type="submit" value="Export to xml" onclick="location.href='@Url.Action( "Xml", "Project", new { id = ViewBag.ProjectId })'" />
+        </th>
+    </tr>
+    </table>
+
+
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("Nazwa")
+        </th>
+        <th>
+            @Html.DisplayName("Opis")
+        </th>
+        <th>
+            @Html.DisplayName("Czas")
+        </th>
+        <th>
+            @Html.DisplayName("Przydzielono do")
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td width="20%">
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td width="45%">
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td width="10%">
+                @Html.DisplayFor(modelItem => item.Hour)
+            </td>
+            <td width="15%">
+                @Html.DisplayFor(modelItem => item.Assigne)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edytuj", "Edit", "Task", new { Id = item.Id }, null)
+                @if (BusinessLayer.UserBissnessLayer.getIfPermIsCorrect(User.Identity.GetUserId<String>(), ViewBag.ProjectId) >= 1)
+                {
+                    <b>|</b>
+                    @Html.ActionLink("Usuń", "Delete", "Task", new { Id = item.Id }, null)
+                }
+            </td>
+        </tr>
+    }
+
+</table>
+
+

@@ -252,6 +252,7 @@
     <Compile Include="ListOfProjects.cs" />
     <Compile Include="RemoveFromProjectData.cs" />
     <Compile Include="StringObject.cs" />
+    <Compile Include="Task.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserBissnessLayer.cs" />

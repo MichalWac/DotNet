@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -47,6 +48,7 @@ namespace WebApplication1.Controllers
             UserBissnessLayer bissnessLayer = new UserBissnessLayer();
             bissnessLayer.DeleteProject(id);
             bissnessLayer.DeletePermissions(id);
+            bissnessLayer.DeleteTaskFromProject(id);
             return RedirectToAction("Project", "Home");
 
         }
@@ -64,6 +66,38 @@ namespace WebApplication1.Controllers
             bissnessLayer.RemoveProjectFromUser(userId, Project);
             return RedirectToAction("UsersInProject", new { id = Project });
         }
+
+        public ActionResult Task(String id)
+        {
+            UserBissnessLayer bissnessLayer = new UserBissnessLayer();
+            List<Task> TaskList = bissnessLayer.GetTaskForProject(id);
+
+            ViewBag.ProjectId = id;
+            return View(TaskList);
+        }
+
+        public ActionResult Csv(String id)
+        {
+            UserBissnessLayer layer = new UserBissnessLayer();
+            Project project = layer.GetAllProject().Find(x => x.Id == id);
+            List<Task> tasks = layer.GetTaskForProject(id);
+            List<UserWithPerm> users = layer.UserInProject(id).ToList();
+            Response.AppendHeader("Content-Disposition", "attachment;filename=project.csv");
+            byte[] file = Encoding.ASCII.GetBytes(layer.createCSV(project, tasks, users));
+            return File(file, "text/csv", "project.csv");
+        }
+
+        public ActionResult Xml(String id)
+        {
+            UserBissnessLayer layer = new UserBissnessLayer();
+            Project project = layer.GetAllProject().Find(x => x.Id == id);
+            List<Task> tasks = layer.GetTaskForProject(id);
+            List<UserWithPerm> users = layer.UserInProject(id).ToList();
+            Response.AppendHeader("Content-Disposition", "attachment;filename=project.xml");
+            byte[] file = Encoding.ASCII.GetBytes(layer.createXML(project, tasks, users));
+            return File(file, "text/xml", "project.xml");
+        }
+
         private Project MapProject(FormCollection formCollection)
         {
             Project project = new Project();
